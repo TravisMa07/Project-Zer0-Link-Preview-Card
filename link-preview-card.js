@@ -21,6 +21,10 @@ export class LinkPreviewCard extends DDDSuper(I18NMixin(LitElement)) {
   constructor() {
     super();
     this.title = "";
+    this.desc = "";
+    this.image = "";
+    this.link = "";
+    this.themeColor = "";
     this.t = this.t || {};
     this.t = {
       ...this.t,
@@ -40,8 +44,13 @@ export class LinkPreviewCard extends DDDSuper(I18NMixin(LitElement)) {
     return {
       ...super.properties,
       title: { type: String },
+      desc: {type: String},
+      image: {type: String},
+      link: {type: String},
+      themeColor: {type: String},
     };
   }
+  
 
   // Lit scoped styles
   static get styles() {
@@ -66,11 +75,76 @@ export class LinkPreviewCard extends DDDSuper(I18NMixin(LitElement)) {
   // Lit render the HTML
   render() {
     return html`
-<div class="wrapper">
-  <h3><span>${this.t.title}:</span> ${this.title}</h3>
-  <slot></slot>
-</div>`;
+    <div class="wrapper">
+      <div class="preview-card">
+        <h2>${this.title}</h2>
+        <p>${this.desc}</p>
+        ${this.image ? html`<img src="${this.image}" alt="${this.title}" />` : ''}
+        <a href="${this.link}">${this.link}</a>
+      </div>
+    </div>
+    `;
   }
+
+
+  inputChanged(e) {
+    this.value = this.shadowRoot.querySelector('#input').value;
+  }
+  // life cycle will run when anything defined in `properties` is modified
+  updated(changedProperties) {
+    // see if value changes from user input and is not empty
+    if (changedProperties.has('link') && this.link) {
+      this.updateResults(this.link);
+    }
+    else if (changedProperties.has('link') && !this.link) {
+      this.items = [];
+    }
+    // @debugging purposes only
+    if (changedProperties.has('items') && this.items.length > 0) {
+      console.log(this.items);
+    }
+  }
+
+  updateResults(value) {
+    this.loading = true;
+    fetch(`https://images-api.nasa.gov/search?media_type=image&q=${value}`).then(d => d.ok ? d.json(): {}).then(data => {
+      if (data.collection) {
+        this.items = [];
+        this.items = data.collection.items;
+        this.loading = false;
+      }  
+    });
+  }
+  
+  async getData(link) {
+    const url = `https://open-apis.hax.cloud/api/services/website/metadata?q=${link}`;
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+  
+      const json = await response.json();
+      console.log(json.data);
+      
+      if (json.data) {
+        this.title = json.data["og:title"];
+        this.desc = json.data["og:description"];
+        this.image = json.data["og:image"];
+        this.themeColor = json.data["theme-color"];
+        this.link = link;
+      }else{
+        this.title = "no metadata";
+        this.desc = "";
+        this.image = "";
+        this.themeColor = "";
+      }
+
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+  
 
   /**
    * haxProperties integration via file reference

@@ -11,11 +11,28 @@
 <body>
   <div id="demo">
     <h1>link-preview-card</h1>
-/******/
+    <label for="link">Link:</label>
+    <input id="link" type="text" />
+    <link-preview-card id="preview" link="https://www.psu.edu"><link-preview-card>\
+    <button id="load">Load</button>
   </div>
 
-
-
   <script type="module" src="./link-preview-card.js"></script>
+  <script>
+    const input = document.getElementById('link');
+    const preview = document.getElementById('preview');
+    const load = document.getElementById('load');
+
+    input.addEventListener('input', () => {
+      preview.link = input.value;
+      preview.getData(input.value);
+    });
+
+    load.addEventListener('click', () => {
+      preview.getData(input.value);
+    });
+
+
+  </script>
 </body>
 </html>
