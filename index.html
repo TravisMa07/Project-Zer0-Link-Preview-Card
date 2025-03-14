@@ -11,27 +11,21 @@
 <body>
   <div id="demo">
     <h1>link-preview-card</h1>
-    <label for="link">Link:</label>
-    <input id="link" type="text" />
-    <link-preview-card id="preview" link="https://www.psu.edu"><link-preview-card>\
-    <button id="load">Load</button>
+    <link-preview-card link="https://www.github.com"></link-preview-card>
+    <link-preview-card link="https://www.apple.com"></link-preview-card>
+    <link-preview-card link="https://www.psu.edu"></link-preview-card>
+    <link-preview-card link="https://www.spotify.com"></link-preview-card>
   </div>
+
 
   <script type="module" src="./link-preview-card.js"></script>
   <script>
-    const input = document.getElementById('link');
-    const preview = document.getElementById('preview');
-    const load = document.getElementById('load');
-
-    input.addEventListener('input', () => {
-      preview.link = input.value;
-      preview.getData(input.value);
+   window.addEventListener('load', () => {
+    document.querySelectorAll('link-preview-card').forEach(card => {
+      const link = card.getAttribute('link');
+      card.getData(link);
     });
-
-    load.addEventListener('click', () => {
-      preview.getData(input.value);
-    });
-
+   });
 
   </script>
 </body>

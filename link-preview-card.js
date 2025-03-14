@@ -69,6 +69,19 @@ export class LinkPreviewCard extends DDDSuper(I18NMixin(LitElement)) {
       h3 span {
         font-size: var(--link-preview-card-label-font-size, var(--ddd-font-size-s));
       }
+      .loader {
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
     `];
   }
 
@@ -77,10 +90,12 @@ export class LinkPreviewCard extends DDDSuper(I18NMixin(LitElement)) {
     return html`
     <div class="wrapper">
       <div class="preview-card">
+        ${this.loading ? html`<div class="loader"></div>` : html `
         <h2>${this.title}</h2>
         <p>${this.desc}</p>
         ${this.image ? html`<img src="${this.image}" alt="${this.title}" />` : ''}
         <a href="${this.link}">${this.link}</a>
+        `}
       </div>
     </div>
     `;
