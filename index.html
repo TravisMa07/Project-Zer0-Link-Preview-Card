@@ -9,16 +9,17 @@
 </head>
 
 <body>
-  <div id="demo">
+  <div id="container">
     <h1>link-preview-card</h1>
     <link-preview-card link="https://www.github.com"></link-preview-card>
     <link-preview-card link="https://www.apple.com"></link-preview-card>
-    <link-preview-card link="https://www.psu.edu"></link-preview-card>
+    <link-preview-card link="https://www.psu.edu/academics/campuses/university-park"/></link-preview-card>
     <link-preview-card link="https://www.spotify.com"></link-preview-card>
   </div>
 
 
   <script type="module" src="./link-preview-card.js"></script>
+
   <script>
    window.addEventListener('load', () => {
     document.querySelectorAll('link-preview-card').forEach(card => {
