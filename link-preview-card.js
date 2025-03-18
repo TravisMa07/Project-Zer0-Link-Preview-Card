@@ -58,23 +58,23 @@ export class LinkPreviewCard extends DDDSuper(I18NMixin(LitElement)) {
     css`
       :host {
         display: block;
-        color: var(--ddd-theme-primary);
-        background-color: var(--ddd-theme-accent);
-        font-family: var(--ddd-font-navigation);
+        color: var(--link-preview-card-text-color,--ddd-theme-primary);
+        background-color: var(--link-preview-card-background-color,--ddd-theme-accent);
+        font-family: var(--link-preview-card-font-family,--ddd-font-navigation);
       }
       .wrapper {
-        margin: var(--ddd-spacing-2);
-        padding: var(--ddd-spacing-4);
+        margin: var(--link-preview-card-margin,--ddd-spacing-2);
+        padding: var(--link-preview-card-padding,--ddd-spacing-4);
       }
       h3 span {
         font-size: var(--link-preview-card-label-font-size, var(--ddd-font-size-s));
       }
       .loader {
-        border: 16px solid #f3f3f3; /* Light grey */
-        border-top: 16px solid #3498db; /* Blue */
+        border: 16px solid var(--link-preview-card-loader-border-color,#f3f3f3); 
+        border-top: 16px solid var(--link-preview-card-loader-border-top-color,#3498db);
         border-radius: 50%;
-        width: 120px;
-        height: 120px;
+        width: var(--link-preview-card-loader-size,120px);
+        height: var(--link-preview-card-loader-size,120px);
         animation: spin 2s linear infinite;
       }
 
@@ -82,19 +82,37 @@ export class LinkPreviewCard extends DDDSuper(I18NMixin(LitElement)) {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
       }
+      .preview-card {
+        display: flex;
+        flex-direction: column;
+        align-items: normal;
+        justify-content: center;
+        background-color: var(--link-preview-card-preview-background-color,var(--ddd-theme-accent));
+        padding: var(--link-preview-card-preview-padding,var(--ddd-spacing-2));
+        border-radius: var(--link-preview-card-border-radius, var(--ddd-border-radius));
+        box-shadow: var(--link-preview-card-box-shaddow,var(--ddd-box-shadow));
+       
+      }
+      img{
+        width: 90%;
+        height: 90%;
+      }
+
+    
+      
     `];
   }
 
   // Lit render the HTML
   render() {
     return html`
-    <div class="wrapper">
-      <div class="preview-card">
-        ${this.loading ? html`<div class="loader"></div>` : html `
-        <h2>${this.title}</h2>
-        <p>${this.desc}</p>
-        ${this.image ? html`<img src="${this.image}" alt="${this.title}" />` : ''}
-        <a href="${this.link}">${this.link}</a>
+    <div class="wrapper" part="wrapper">
+      <div class="preview-card" part="preview-card">
+        ${this.loading ? html`<div class="loader" part="loader"></div>` : html `
+        <h2 part="title">${this.title}</h2>
+        <p part="desc">${this.desc}</p>
+        <a href="${this.link}" part="link">${this.link}</a>
+        ${this.image ? html`<img src="${this.image}" alt="${this.title}" part="image"/>` : ''}
         `}
       </div>
     </div>
@@ -149,9 +167,9 @@ export class LinkPreviewCard extends DDDSuper(I18NMixin(LitElement)) {
         this.themeColor = json.data["theme-color"];
         this.link = link;
       }else{
-        this.title = "no metadata";
-        this.desc = "";
-        this.image = "";
+        this.title = "No Title Avilable";
+        this.desc = "No Description Avilable";
+        this.image = "No Image Avilable";
         this.themeColor = "";
       }
 
