@@ -167,6 +167,17 @@ export class LinkPreviewCard extends DDDSuper(I18NMixin(LitElement)) {
         this.themeColor = "";
       }
 
+      const website = new URL(link).hostname;
+      if(json.data["theme-color"]){
+        this.themeColor = json.data["theme-color"];
+      }else if(website.includes("psu.edu")){
+        color = "var(--ddd-theme-default-nittanyNavy)";
+      }else{
+        const randomColor = Math.random() * 26;
+        this.themeColor = "var(---ddd-theme-default-${randomColor})";
+      }
+      
+
     } catch (error) {
       console.error(error.message);
     }
