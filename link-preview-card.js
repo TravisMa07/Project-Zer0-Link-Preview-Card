@@ -63,18 +63,18 @@ export class LinkPreviewCard extends DDDSuper(I18NMixin(LitElement)) {
         font-family: var(--link-preview-card-font-family,--ddd-font-navigation);
       }
       .wrapper {
-        margin: var(--link-preview-card-margin,--ddd-spacing-2);
-        padding: var(--link-preview-card-padding,--ddd-spacing-4);
+        margin: 2px
+        padding: 4px;
       }
       h3 span {
         font-size: var(--link-preview-card-label-font-size, var(--ddd-font-size-s));
       }
       .loader {
-        border: 16px solid var(--link-preview-card-loader-border-color,#f3f3f3); 
-        border-top: 16px solid var(--link-preview-card-loader-border-top-color,#3498db);
+        border: 16px solid var(--ddd-theme-default-white); 
+        border-top: 16px solid var(--ddd-theme-default-pughBlue);
         border-radius: 50%;
-        width: var(--link-preview-card-loader-size,120px);
-        height: var(--link-preview-card-loader-size,120px);
+        width: 120px;
+        height: 120px;
         animation: spin 2s linear infinite;
       }
 
@@ -87,18 +87,12 @@ export class LinkPreviewCard extends DDDSuper(I18NMixin(LitElement)) {
         flex-direction: column;
         align-items: normal;
         justify-content: center;
-        background-color: var(--link-preview-card-preview-background-color,var(--ddd-theme-accent));
-        padding: var(--link-preview-card-preview-padding,var(--ddd-spacing-2));
-        border-radius: var(--link-preview-card-border-radius, var(--ddd-border-radius));
-        box-shadow: var(--link-preview-card-box-shaddow,var(--ddd-box-shadow));
-       
+      
       }
       img{
         width: 90%;
         height: 90%;
       }
-
-    
       
     `];
   }
