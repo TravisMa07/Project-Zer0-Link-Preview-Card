@@ -67,8 +67,8 @@ export class LinkPreviewCard extends DDDSuper(I18NMixin(LitElement)) {
         font-size: var(--link-preview-card-heading-accent, var(--ddd-theme-default-nittanyNavy));
       }
       .wrapper {
-        margin: 2px;
-        padding: 4px;
+        margin: var(--ddd-spacing-1);
+        padding: var(--ddd-spacing-1);
       }
       h3 span {
         font-size: var(--link-preview-card-label-font-size, var(--ddd-font-size-s));
@@ -76,7 +76,7 @@ export class LinkPreviewCard extends DDDSuper(I18NMixin(LitElement)) {
       .loader {
         border: 16px solid var(--ddd-theme-default-white); 
         border-top: 16px solid var(--ddd-theme-default-pughBlue);
-        border-radius: 50%;
+        border-radius: var(--ddd-radius-md);
         width: 120px;
         height: 120px;
         animation: spin 2s linear infinite;

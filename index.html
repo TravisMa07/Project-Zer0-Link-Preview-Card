@@ -12,7 +12,7 @@
 <style>
   link-preview-card::part(title) {
     color: var(--ddd-theme-default-slateMaxLight);
-    font-size: 32px;
+    font-size: var(--ddd-font-size-3xs);
   }
 
   link-preview-card::part(desc) {
@@ -21,18 +21,18 @@
   }
 
   link-preview-card::part(link) {
-    color: #1e90ff;
+    color: var(--ddd-theme-default-skyBlue);
   }
 
   link-preview-card::part(image) {
     border: 3px solid var(--ddd-theme-default-slateLight);
-    border-radius: 8px;
+    border-radius: var(--ddd-radius-sm);
   }
 
   link-preview-card::part(preview-card) {
     background: var(--ddd-theme-default-coalyGray);
-    padding: 16px;
-    border-radius: 12px;
+    padding: var(--ddd-spacing-4);
+    border-radius: var(--ddd-radius-md);
     transition: all 0.3s ease;
   }
 
