@@ -62,8 +62,12 @@ export class LinkPreviewCard extends DDDSuper(I18NMixin(LitElement)) {
         background-color: var(--link-preview-card-background-color,--ddd-theme-accent);
         font-family: var(--link-preview-card-font-family,--ddd-font-navigation);
       }
+      h2{
+        color: var(--link-preview-card-heading-color, var(--ddd-theme-default-nittanyNavy));
+        font-size: var(--link-preview-card-heading-accent, var(--ddd-theme-default-nittanyNavy));
+      }
       .wrapper {
-        margin: 2px
+        margin: 2px;
         padding: 4px;
       }
       h3 span {
@@ -130,7 +134,12 @@ export class LinkPreviewCard extends DDDSuper(I18NMixin(LitElement)) {
     if (changedProperties.has('items') && this.items.length > 0) {
       console.log(this.items);
     }
+    if(changedProperties.has('link') && this.link){
+      this.getData(this.link);
+    }
+    
   }
+ 
 
   updateResults(value) {
     this.loading = true;
@@ -142,9 +151,33 @@ export class LinkPreviewCard extends DDDSuper(I18NMixin(LitElement)) {
       }  
     });
   }
+
+  applyThemeColor() {
+    this.style.setProperty('--link-preview-card-border-color', this.themeColor);
+    this.style.setProperty('--link-preview-card-heading-color', this.themeColor);
+    this.style.setProperty('--link-preview-card-heading-accent-color', this.themeColor);
+    this.style.setProperty('--link-preview-card-title-color', this.themeColor);
+
+    this.style.borderColor = this.themeColor;
+    this.style.color = this.themeColor;
+  }
+
   
   async getData(link) {
     const url = `https://open-apis.hax.cloud/api/services/website/metadata?q=${link}`;
+    const timeout = 10000;
+    this.loading = true;
+    const timeoutData = setTimeout(() => {
+      if(this.loading){
+        this.loading = false;
+        this.title = "No Title Avilable";
+        this.desc = "No Description Avilable";
+        this.image = "No Image Avilable";
+        this.themeColor = "";
+      }
+    }, timeout);
+
+    
     try {
       const response = await fetch(url);
       if (!response.ok) {
@@ -168,19 +201,32 @@ export class LinkPreviewCard extends DDDSuper(I18NMixin(LitElement)) {
       }
 
       const website = new URL(link).hostname;
-      if(json.data["theme-color"]){
-        this.themeColor = json.data["theme-color"];
-      }else if(website.includes("psu.edu")){
-        color = "var(--ddd-theme-default-nittanyNavy)";
+      if(!this.themeColor){
+      if(website.includes("psu.edu")){
+        this.themeColor = "var(--ddd-theme-default-nittanyNavy)";
       }else{
-        const randomColor = Math.random() * 26;
-        this.themeColor = "var(---ddd-theme-default-${randomColor})";
+        const randomColor = Math.floor(Math.random() * 26);
+        this.themeColor = `var(--ddd-theme-default-${randomColor})`; 
       }
-      
+    }
+
+    this.applyThemeColor();
+    
 
     } catch (error) {
       console.error(error.message);
+      this.title = "No Title Avilable";
+      this.desc = "No Description Avilable";
+      this.image = "";
+      this.themeColor = "";
+      this.applyThemeColor();
+    }finally{
+      clearTimeout(timeoutData);
+      this.loading = false;
     }
+
+
+    
   }
   
 
